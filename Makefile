@@ -1,4 +1,6 @@
+LIBS = -pthread
 amaze : amaze.o queue.o main.o libmxml/libmxml.a
+	$(CC) -o $@ $^ $(LDFLAGS) $(LIBS)
 
 main.o : main.c filenames.h
 
