@@ -47,7 +47,6 @@ int main(int argc, char **argv)
 		data = mxmlFindElement(layer, xml,"data",NULL,NULL,MXML_DESCEND);
 		int width = atoi(mxmlElementGetAttr(layer,"width"));
 		int height = atoi(mxmlElementGetAttr(layer,"height"));
-		//printf("width = %d, height = %d\n", width, height);
 
 
 		mxmlDelete(xml);
@@ -79,14 +78,15 @@ int main(int argc, char **argv)
 		}
 		fclose(fp);
 
-		//display_maze(maze_array, width, height);
+		printf("width = %d, height = %d\n", width, height);
+		display_maze(maze_array, width, height);
 
 		find_the_shortest_path(maze_array, width, height);
 
 		finish = clock();
 		duration = (double)(finish - start) / CLOCKS_PER_SEC;
 		printf("%s ",filename);
-		printf("%f seconds ", duration );
+		printf("%f seconds ", duration);
 		printf("%s\n", amaze_print_buffer);
 		memset(amaze_print_buffer, 0, 1024);
 	}

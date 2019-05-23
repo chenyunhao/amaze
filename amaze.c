@@ -25,6 +25,7 @@ int array_width;
 int array_height;
 
 struct path *path_array[MAX_ARRAY];
+int path_count;
 
 
 static int get_multi_array_index(int a, int b, int c, int d)
@@ -229,7 +230,6 @@ static int move_to_next(struct queue *queue, struct path *parent_path, int direc
 	path->left_free_square -= visited_count;
 
 	//path_array[path->start.x + path->start.y * array_width] = path;
-
 	if (path->end.x == parent_path->start.x && path->end.y == parent_path->start.y && !is_dead_end(path)) {
 		free(path->visited_array);
 		free(path);
@@ -238,17 +238,63 @@ static int move_to_next(struct queue *queue, struct path *parent_path, int direc
 	}
 
 	// to avoid the recursion situation;
+	//
+	//
+#if 0
+	if (path->steps > 3) {
+		struct path *three_steps = parent_path;
+
+		for (int i = 0; i < 3; i++) {
+			three_steps = three_steps->parent_path;
+		}
+
+		if (path->start.x == three_steps->start.x &&
+				path->start.y == three_steps->start.y &&
+				path->end.x == three_steps->end.x &&
+				path->end.y == three_steps->end.y) {
+			free(path->visited_array);
+			free(path);
+			return -1;
+		}
+	}
+#endif
+
+	
 #if 0
 	uint8_t path_visited_count = parent_path->visited_records[get_multi_array_index(path->start.x, path->start.y, path->end.x, path->end.y)].visited_count;
 	uint8_t path_visited_steps = parent_path->visited_records[get_multi_array_index(path->start.x, path->start.y, path->end.x, path->end.y)].steps;
-	if (path_visited_count > 10 && (path->steps - path_visited_steps) < 3) {
+
+	//path->visited_records = (struct visited_record *)calloc(MAX_AXIS * MAX_AXIS * MAX_AXIS * MAX_AXIS, sizeof(struct visited_record));
+	path->visited_records = parent_path->visited_records;
+	path->visited_records[get_multi_array_index(path->start.x, path->start.y, path->end.x, path->end.y)].visited_count = path_visited_count + 1;
+	path->visited_records[get_multi_array_index(path->start.x, path->start.y, path->end.x, path->end.y)].steps = path->steps;
+	path_count++;
+
+	if (path_visited_count > 1 && (path->steps - path_visited_steps) < 3) {
+	parent_path->visited_records[get_multi_array_index(path->start.x, path->start.y, path->end.x, path->end.y)].visited_count = 1;
+		free(path->visited_array);
+		free(path);
 		return -1;
 
 	}
+#endif
 
-	path->visited_records = (struct visited_record *)calloc(MAX_AXIS * MAX_AXIS * MAX_AXIS * MAX_AXIS, sizeof(struct visited_record));
+#if 1
+	uint8_t path_visited_count = parent_path->visited_records[get_multi_array_index(path->start.x, path->start.y, path->end.x, path->end.y)].visited_count;
+	uint8_t path_visited_steps = parent_path->visited_records[get_multi_array_index(path->start.x, path->start.y, path->end.x, path->end.y)].steps;
+
+	//path->visited_records = (struct visited_record *)calloc(MAX_AXIS * MAX_AXIS * MAX_AXIS * MAX_AXIS, sizeof(struct visited_record));
+	path->visited_records = parent_path->visited_records;
 	path->visited_records[get_multi_array_index(path->start.x, path->start.y, path->end.x, path->end.y)].visited_count = path_visited_count + 1;
 	path->visited_records[get_multi_array_index(path->start.x, path->start.y, path->end.x, path->end.y)].steps = path->steps;
+
+	if (path_visited_count == 2 && (path->steps - path_visited_steps) < 2) {
+		parent_path->visited_records[get_multi_array_index(path->start.x, path->start.y, path->end.x, path->end.y)].visited_count = 1;
+		free(path->visited_array);
+		free(path);
+		return -1;
+
+	}
 #endif
 
 
@@ -328,10 +374,11 @@ int find_the_shortest_path (int maze_array[], int width, int height) {
 	initial_path.visited_array[initial_path.start.y * array_width + initial_path.start.x] = HAS_VISITED;
 	initial_path.left_free_square = free_squares_count - 1;
 
-#if 0
+#if 1 
 	initial_path.visited_records = (struct visited_record *)calloc(MAX_AXIS * MAX_AXIS * MAX_AXIS * MAX_AXIS, sizeof(struct visited_record));
 	initial_path.visited_records[get_multi_array_index(pos.x, pos.y, pos.x,pos.y)].steps = initial_path.steps;
 	initial_path.visited_records[get_multi_array_index(pos.x, pos.y, pos.x,pos.y)].visited_count = 1;
+	path_count = 0;
 #endif
 	struct queue *queue = init_queue();
 
@@ -372,8 +419,11 @@ int find_the_shortest_path (int maze_array[], int width, int height) {
 			break;
 		}
 		
+		//display_maze(path->visited_array, array_width, array_height);
 		free(path->visited_array);
 		//free(path->visited_records);
 	}
+
+	printf("path count = %d\n", path_count);
 	return 0;
 }
