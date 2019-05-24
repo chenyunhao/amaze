@@ -36,7 +36,7 @@ static int get_multi_array_index(int a, int b, int c, int d)
 	return index;
 }
 
-static int count_free_square(int array[], int size)
+static int count_free_square(int8_t array[], int size)
 {
 	int free_squares = 0;
 	for (int i = 0; i < size; i++) {
@@ -48,7 +48,7 @@ static int count_free_square(int array[], int size)
 	return free_squares;
 }
 
-void display_maze(int maze_array[], int width, int height)
+void display_maze(int8_t maze_array[], int width, int height)
 {
 
 #define CLEAR() printf("\033[2J")
@@ -148,8 +148,8 @@ static int move_to_next(struct queue *queue, struct path *parent_path, int direc
 	}
 #endif
 
-	path->visited_array = (int *)calloc(array_width * array_height, sizeof(int));
-	memcpy(path->visited_array, parent_path->visited_array, sizeof(int) * array_width * array_height);
+	path->visited_array = (int8_t *)calloc(array_width * array_height, sizeof(int8_t));
+	memcpy(path->visited_array, parent_path->visited_array, sizeof(int8_t) * array_width * array_height);
 
 	if (path->visited_array[path->start.y * array_width + path->start.x] == 0) {
 		free(path->visited_array);
@@ -287,7 +287,7 @@ static int move_to_next(struct queue *queue, struct path *parent_path, int direc
 	return 1;
 }
 
-static struct position find_start_left_bottom(int maze_array[], int width, int height)
+static struct position find_start_left_bottom(int8_t maze_array[], int width, int height)
 {
 	struct position pos = {0, 0};
 	unsigned int x = 0;
@@ -306,7 +306,7 @@ static struct position find_start_left_bottom(int maze_array[], int width, int h
 	return pos;
 }
 
-static struct position find_start_left_up(int maze_array[], int width, int height)
+static struct position find_start_left_up(int8_t maze_array[], int width, int height)
 {
 	struct position pos = {0, 0};
 	unsigned int x = 0;
@@ -326,7 +326,7 @@ static struct position find_start_left_up(int maze_array[], int width, int heigh
 }
 
 
-int find_the_shortest_path (int maze_array[], int width, int height) {
+int find_the_shortest_path (int8_t maze_array[], int width, int height) {
 	array_width = width;
 	array_height = height;
 	int visited_count = 0;
@@ -344,8 +344,8 @@ int find_the_shortest_path (int maze_array[], int width, int height) {
 		.direction = INITIAL_POS,
 		.parent_path = NULL,
 	};
-	initial_path.visited_array = (int *)calloc(array_width * array_height, sizeof(int));
-	memcpy(initial_path.visited_array, maze_array, sizeof(int) * array_width * array_height);
+	initial_path.visited_array = (int8_t *)calloc(array_width * array_height, sizeof(int8_t));
+	memcpy(initial_path.visited_array, maze_array, sizeof(int8_t) * array_width * array_height);
 	initial_path.visited_array[initial_path.start.y * array_width + initial_path.start.x] = HAS_VISITED;
 	initial_path.left_free_square = free_squares_count - 1;
 

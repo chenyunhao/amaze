@@ -50,13 +50,13 @@ struct path {
 	uint8_t direction; // 1= right, 2= left, 3= up, 4= down, 0 = initial position
 	uint16_t left_free_square;
 	uint8_t steps;
-	int *visited_array;
+	int8_t *visited_array;
 	struct path *parent_path;
 	struct visited_record *visited_records;
 };
 
 
-int find_the_shortest_path (int maze_array[], int width, int height);
-void display_maze(int maze_array[], int width, int height);
+int find_the_shortest_path (int8_t maze_array[], int width, int height);
+void display_maze(int8_t maze_array[], int width, int height);
 
 #endif           /* AMAZE_H */

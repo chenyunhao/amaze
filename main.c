@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 
 		char line[2000];
 		char *result = NULL;
-		int maze_array[5000];
+		int8_t maze_array[5000];
 		int count = 0;
 
 		fp = fopen(filename,"r");
