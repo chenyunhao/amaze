@@ -1,20 +1,23 @@
 # Amaze competition
 
 ## Setup & build
-###1. login to the AWS server
-run:
+### 1. login to the AWS server and run:
 `sudo yum install git`
+
 `sudo yum install make`
+
 `sudo yum install gcc`
 
-###2. clone my code:
+### 2. clone my code:
 
 `git clone https://github.com/chenyunhao/amaze.git && cd amaze`
 
-###3. build
+### 3. build
+
 `make`
 
-###4. run
+### 4. run
+
 `./run.sh`
 
 ## Prebuild result
