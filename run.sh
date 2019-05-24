@@ -116,7 +116,6 @@
 	./amaze "amaze_levels/142.xml"
 	./amaze "amaze_levels/145 dan.xml"
 	./amaze "amaze_levels/147 dan.xml"
-	./amaze "amaze_levels/151 dan.xml"
 	./amaze "amaze_levels/152 dan.xml"
 	./amaze "amaze_levels/154 dan.xml"
 	./amaze "amaze_levels/156 dan.xml"
