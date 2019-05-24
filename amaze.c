@@ -114,7 +114,8 @@ static void reversed_print_list(struct path *path)
 		printf("%s ","RIGHT");
 	}
 #else
-	sprintf(amaze_print_buffer, "%s%d, ",amaze_print_buffer, direction);
+	if (path->parent_path != NULL)
+		sprintf(amaze_print_buffer, "%s%d, ",amaze_print_buffer, direction);
 #endif
 
 	return;
@@ -424,6 +425,5 @@ int find_the_shortest_path (int maze_array[], int width, int height) {
 		//free(path->visited_records);
 	}
 
-	printf("path count = %d\n", path_count);
 	return 0;
 }

@@ -21,6 +21,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
+#include <libgen.h>
 #include "amaze.h"
 #include "libmxml/mxml.h"
 #include "filenames.h"
@@ -78,16 +79,21 @@ int main(int argc, char **argv)
 		}
 		fclose(fp);
 
-		printf("width = %d, height = %d\n", width, height);
-		display_maze(maze_array, width, height);
+		//printf("width = %d, height = %d\n", width, height);
+		//display_maze(maze_array, width, height);
 
 		find_the_shortest_path(maze_array, width, height);
 
 		finish = clock();
 		duration = (double)(finish - start) / CLOCKS_PER_SEC;
-		printf("%s ",filename);
-		printf("%f seconds ", duration);
-		printf("%s\n", amaze_print_buffer);
+
+		printf("%s, ",basename(filename));
+		printf("%f, ", duration );
+		if (strlen(amaze_print_buffer) != 0) {
+			printf("%s\n", amaze_print_buffer);
+		} else {
+			printf("No path to finish\n");
+		}
 		memset(amaze_print_buffer, 0, 1024);
 	}
 
