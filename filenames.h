@@ -19,7 +19,7 @@
 #ifndef FILENAMES_H
 #define FILENAMES_H
 
-#if 0
+#if 1
 char *filenames[] = {
 	"amaze_levels/001.xml",
 	"amaze_levels/002.xml",
@@ -245,6 +245,7 @@ char *filenames[] = {
 //	"amaze_levels/048.xml",
 //	"amaze_levels/049.xml",
 //	"amaze_levels/050.xml",
+	"amaze_levels/051.xml",
 //	"amaze_levels/052.xml",
 //	"amaze_levels/053.xml",
 	//"amaze_levels/054.xml",

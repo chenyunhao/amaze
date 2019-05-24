@@ -161,7 +161,7 @@ static int move_to_next(struct queue *queue, struct path *parent_path, int direc
 	if (direction == UP) {
 		for (i = 0; i < (path->start.y - 0); i++) {
 			if (path->visited_array[(path->start.y - i) * array_width + path->start.x] != 0) {
-				if (path->visited_array[(path->start.y - i) * array_width + path->start.x] != HAS_VISITED) {
+				if (path->visited_array[(path->start.y - i) * array_width + path->start.x] > HAS_VISITED) {
 					path->visited_array[(path->start.y - i) * array_width + path->start.x] = HAS_VISITED;
 					visited_count++;
 				}
@@ -172,7 +172,7 @@ static int move_to_next(struct queue *queue, struct path *parent_path, int direc
 	} else if (direction == DOWN) {
 		for (i = 0; i < (array_height - path->start.y); i++) {
 			if (path->visited_array[(path->start.y + i) * array_width + path->start.x] != 0) {
-				if (path->visited_array[(path->start.y + i) * array_width + path->start.x] != HAS_VISITED) {
+				if (path->visited_array[(path->start.y + i) * array_width + path->start.x] > HAS_VISITED) {
 					path->visited_array[(path->start.y + i) * array_width + path->start.x] = HAS_VISITED;
 					visited_count++;
 				}
@@ -183,7 +183,7 @@ static int move_to_next(struct queue *queue, struct path *parent_path, int direc
 	} else if (direction == LEFT) {
 		for (i = 0; i < (path->start.x - 0); i++) {
 			if (path->visited_array[path->start.y * array_width + path->start.x - i] != 0) {
-				if (path->visited_array[path->start.y * array_width + path->start.x - i] != HAS_VISITED) {
+				if (path->visited_array[path->start.y * array_width + path->start.x - i] > HAS_VISITED) {
 					path->visited_array[path->start.y * array_width + path->start.x - i] = HAS_VISITED;
 					visited_count++;
 				}
@@ -194,7 +194,7 @@ static int move_to_next(struct queue *queue, struct path *parent_path, int direc
 	} else if (direction == RIGHT) {
 		for (i = 0; i < (array_width - path->start.x); i++) {
 			if (path->visited_array[path->start.y * array_width + path->start.x + i] != 0) {
-				if (path->visited_array[path->start.y * array_width + path->start.x + i] != HAS_VISITED) {
+				if (path->visited_array[path->start.y * array_width + path->start.x + i] > HAS_VISITED) {
 					path->visited_array[path->start.y * array_width + path->start.x + i] = HAS_VISITED;
 					visited_count++;
 				}
@@ -236,6 +236,25 @@ static int move_to_next(struct queue *queue, struct path *parent_path, int direc
 		return -1;
 		//repeat path except dead end
 	}
+
+	if (path->visited_array[path->end.y * array_width + path->end.x] <= HAS_VISITED) {
+		path->visited_array[path->end.y * array_width + path->end.x]--;
+		if (path->visited_array[path->end.y * array_width + path->end.x] < -3) {
+			free(path->visited_array);
+			free(path);
+			return -1;
+		}
+
+	}
+
+
+#if 0
+	if (visited_count == 0 && !is_dead_end(path)) {
+		free(path->visited_array);
+		free(path);
+		return -1;
+	}
+#endif
 
 	// to avoid the recursion situation;
 #if 0
@@ -375,5 +394,6 @@ int find_the_shortest_path (int maze_array[], int width, int height) {
 		free(path->visited_array);
 		//free(path->visited_records);
 	}
+
 	return 0;
 }
