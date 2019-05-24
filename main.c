@@ -26,17 +26,22 @@
 #include "libmxml/mxml.h"
 #include "filenames.h"
 
+//#define USE_FILENAME_H
+
 clock_t start, finish;
 double  duration;
 char amaze_print_buffer[];
 
 int main(int argc, char **argv)
 {
-	//char *filename = "amaze_levels/097 dan.xml";
 	char *filename;
+#ifdef USE_FILENAME_H
 	for (int i = 0; i < sizeof(filenames)/sizeof(filenames[0]); i++) {
-		start = clock();
 		filename = filenames[i];
+#else
+		filename = argv[1];
+#endif
+		start = clock();
 		FILE* fp = fopen(filename,"r");
 		mxml_node_t* xml = mxmlLoadFile(NULL,fp,MXML_NO_CALLBACK);
 		mxml_node_t* layer = NULL;
@@ -96,7 +101,9 @@ int main(int argc, char **argv)
 			printf("No path to finish\n");
 		}
 		memset(amaze_print_buffer, 0, 1024);
+#ifdef USE_FILENAME_H
 	}
+#endif
 
 	return 0;
 }

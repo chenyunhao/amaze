@@ -237,7 +237,7 @@ static int move_to_next(struct queue *queue, struct path *parent_path, int direc
 		return -1;
 		//repeat path except dead end
 	}
-
+#if 1
 	if (path->visited_array[path->end.y * array_width + path->end.x] <= HAS_VISITED) {
 		path->visited_array[path->end.y * array_width + path->end.x]--;
 		if (path->visited_array[path->end.y * array_width + path->end.x] < -3) {
@@ -247,6 +247,7 @@ static int move_to_next(struct queue *queue, struct path *parent_path, int direc
 		}
 
 	}
+#endif
 
 
 #if 0
